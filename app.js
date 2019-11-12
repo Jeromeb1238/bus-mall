@@ -98,7 +98,8 @@ function clickManager(event) {
 
     select3ProductsAndRender();
   } else {
-    renderResults();
+    renderChartResults();
+    renderNarrativeResults();
   }
 }
 
@@ -112,7 +113,61 @@ placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
 
 
-function renderResults() {
+// render chart showing number of clicks, and views if possible
+function renderChartResults() {
+
+  var productNameArray = [];
+  var productClicksArray = [];
+  var productViewsArray = [];
+
+  for(var i = 0; i < productStorage.length; i++){
+    productNameArray.push(productStorage[i].productName);
+    productClicksArray.push(productStorage[i].timesProductClicked);
+    productViewsArray.push(productStorage[i].timesProductShown);
+  }
+  // console.log(productNameArray);
+  console.log(productClicksArray);
+
+  // add chart
+  var context = document.getElementById('productChart').getContext('2d');
+  var productChart = new Chart(context, {
+    type: 'horizontalBar',
+    data: {
+      labels: productNameArray,
+      datasets: [
+        {
+          label: 'Product Clicks',
+          data: productClicksArray,
+          barPercentage: .9,
+          // barThickness: 20,
+          backgroundColor: 'rgb(255,99,132)',
+          borderColor: 'rgb(255,99,132)',
+        },
+        {
+          label: 'Product Views',
+          data: productViewsArray,
+        }
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            }
+          },
+        ],
+      }
+    },
+  });
+  // }
+}
+
+
+
+// render the results of number of clicks and views in text
+function renderNarrativeResults() {
   placeholder0.removeEventListener('click', clickManager);
   placeholder1.removeEventListener('click', clickManager);
   placeholder2.removeEventListener('click', clickManager); 
