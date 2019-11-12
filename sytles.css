@@ -1,4 +1,5 @@
 body {
+  border: black 1px solid;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 12px;
   width: 960px;
@@ -9,8 +10,9 @@ h1 {
   text-align: center;
 }
 .medium-image {
+  padding: 5px;
+  border: solid black 1px;
   width: 300px;
-  /* height: 500px; */
 }
 #final-results {
   font-size: 2.5em;

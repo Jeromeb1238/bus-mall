@@ -5,20 +5,30 @@ var productStorage = [];
 var randomProducts = [];
 var clickCounter = 0;
 var maxClickCount = 25;
+var oldRandomArray = [];
 
 function getRandomProductIndex() {
   return Math.floor(Math.random() * (productStorage.length));
 }
 
 function select3ProductsAndRender() {
+  console.log('old random array', oldRandomArray[0], oldRandomArray[1], oldRandomArray[2]);
   randomProducts = [];
 
   while (randomProducts.length < 3) {
     var nextRandomValue = getRandomProductIndex();
-    if (!randomProducts.includes(nextRandomValue)) {
+    if (!randomProducts.includes(nextRandomValue) && !oldRandomArray.includes(nextRandomValue)) {
       randomProducts.push(nextRandomValue);
     }
   }
+  console.log('new random products ',randomProducts);
+
+  // populate the old random array with the new random values
+  oldRandomArray[0] = randomProducts[0];
+  oldRandomArray[1] = randomProducts[1];
+  oldRandomArray[2] = randomProducts[2];
+
+  console.log('old array created',oldRandomArray[0],oldRandomArray[1],oldRandomArray[2]);
 
   // create placeholders for pictures and count times property shown
   var placeholder0 = document.getElementById('placeholder-0');
