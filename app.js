@@ -4,7 +4,7 @@
 var productStorage = [];
 var randomProducts = [];
 var clickCounter = 0;
-var maxClickCounter = 25;
+var maxClickCounter = 5;
 
 function getRandomProductIndex() {
   return Math.floor(Math.random() * (productStorage.length));
@@ -17,22 +17,25 @@ function select3ProductsAndRender() {
     var nextRandomValue = getRandomProductIndex();
     if (!randomProducts.includes(nextRandomValue)) {
       randomProducts.push(nextRandomValue);
-      console.log('random products ' + randomProducts);
+      // console.log('random products ' + randomProducts);
     }
   }
   var placeholder0 = document.getElementById('placeholder-0');
   var placeholder1 = document.getElementById('placeholder-1');
   var placeholder2 = document.getElementById('placeholder-2');
-  
+
   productStorage[randomProducts[0]].render(placeholder0);
+  productStorage[randomProducts[0]].timesProductShown++;
   productStorage[randomProducts[1]].render(placeholder1);
+  productStorage[randomProducts[1]].timesProductShown;
   productStorage[randomProducts[2]].render(placeholder2);
+  productStorage[randomProducts[2]].timesProductShown;
 }
 
 
 // create Product Object
 var Products = function (productName, productImage) {
-  this.name = productName
+  this.productName = productName
   this.productImage = productImage
   this.timesProductClicked = [];
   this.timesProductShown = [];
@@ -67,14 +70,14 @@ var usbProduct = new Products('usb', './images/usb.gif');
 var waterCanProduct = new Products('water-can', './images/water-can.jpg');
 var wineGlassProduct = new Products('wine-glass', './images/wine-glass.jpg');
 
-function clickManager (event) {
+function clickManager(event) {
   clickCounter++;
-  if(clickCounter < maxClickCounter) {
+  if (clickCounter <= maxClickCounter) {
     var productIndex;
 
-    if(event.target.id === 'placeholder-0') {
+    if (event.target.id === 'placeholder-0') {
       productIndex = 0;
-    } else if(event.target.id === 'placeholder-1') {
+    } else if (event.target.id === 'placeholder-1') {
       productIndex = 1;
     } else {
       productIndex = 2;
@@ -84,12 +87,11 @@ function clickManager (event) {
 
     select3ProductsAndRender();
   } else {
-    alert ('game over');
+    renderResults();
   }
 }
 
 select3ProductsAndRender();
-
 var placeholder0 = document.getElementById('placeholder-0');
 var placeholder1 = document.getElementById('placeholder-1');
 var placeholder2 = document.getElementById('placeholder-2');
@@ -97,3 +99,19 @@ var placeholder2 = document.getElementById('placeholder-2');
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
+
+
+function renderResults() {
+  // placeholder0.removeEventListener('click', clickManager);
+  // placeholder1.removeEventListener('click', clickManager);
+  // placeholder2.removeEventListener('click', clickManager); 
+
+  var finalResultsList = document.getElementById('final-results');
+  var ulElement = document.createElement('ul');
+
+  for (var i = 0; i <= productStorage.length; i++) {
+    var liElement = document.createElement('li');
+    liElement.textContent = productStorage[i].productName + ' had ' + productStorage[i].timesProductClicked + ' votes and was shown ' + productStorage[i].timesProductShown + ' times.';
+    finalResultsList.append(liElement);
+  }
+}
