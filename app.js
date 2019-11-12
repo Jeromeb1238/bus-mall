@@ -4,7 +4,7 @@
 var productStorage = [];
 var randomProducts = [];
 var clickCounter = 0;
-var maxClickCounter = 25;
+var maxClickCount = 25;
 
 function getRandomProductIndex() {
   return Math.floor(Math.random() * (productStorage.length));
@@ -17,9 +17,10 @@ function select3ProductsAndRender() {
     var nextRandomValue = getRandomProductIndex();
     if (!randomProducts.includes(nextRandomValue)) {
       randomProducts.push(nextRandomValue);
-      // console.log('random products ' + randomProducts);
     }
   }
+
+  // create placeholders for pictures and count times property shown
   var placeholder0 = document.getElementById('placeholder-0');
   var placeholder1 = document.getElementById('placeholder-1');
   var placeholder2 = document.getElementById('placeholder-2');
@@ -33,7 +34,7 @@ function select3ProductsAndRender() {
 }
 
 
-// create Product Object
+// create constructor Object 
 var Products = function (productName, productImage) {
   this.productName = productName
   this.productImage = productImage
@@ -72,9 +73,9 @@ var wineGlassProduct = new Products('wine-glass', './images/wine-glass.jpg');
 
 function clickManager(event) {
   clickCounter++;
-  if (clickCounter <= maxClickCounter) {
+  if (clickCounter <= maxClickCount) {
+    
     var productIndex;
-
     if (event.target.id === 'placeholder-0') {
       productIndex = 0;
     } else if (event.target.id === 'placeholder-1') {
