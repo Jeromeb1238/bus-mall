@@ -4,7 +4,7 @@
 var productStorage = [];
 var randomProducts = [];
 var clickCounter = 0;
-var maxClickCounter = 5;
+var maxClickCounter = 25;
 
 function getRandomProductIndex() {
   return Math.floor(Math.random() * (productStorage.length));
@@ -102,9 +102,9 @@ placeholder2.addEventListener('click', clickManager);
 
 
 function renderResults() {
-  // placeholder0.removeEventListener('click', clickManager);
-  // placeholder1.removeEventListener('click', clickManager);
-  // placeholder2.removeEventListener('click', clickManager); 
+  placeholder0.removeEventListener('click', clickManager);
+  placeholder1.removeEventListener('click', clickManager);
+  placeholder2.removeEventListener('click', clickManager); 
 
   var finalResultsList = document.getElementById('final-results');
   var ulElement = document.createElement('ul');
