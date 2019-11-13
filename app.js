@@ -5,20 +5,30 @@ var productStorage = [];
 var randomProducts = [];
 var clickCounter = 0;
 var maxClickCount = 25;
+var oldRandomArray = [];
 
 function getRandomProductIndex() {
   return Math.floor(Math.random() * (productStorage.length));
 }
 
 function select3ProductsAndRender() {
+  console.log('old random array', oldRandomArray[0], oldRandomArray[1], oldRandomArray[2]);
   randomProducts = [];
 
   while (randomProducts.length < 3) {
     var nextRandomValue = getRandomProductIndex();
-    if (!randomProducts.includes(nextRandomValue)) {
+    if (!randomProducts.includes(nextRandomValue) && !oldRandomArray.includes(nextRandomValue)) {
       randomProducts.push(nextRandomValue);
     }
   }
+  console.log('new random products ',randomProducts);
+
+  // populate the old random array with the new random values
+  oldRandomArray[0] = randomProducts[0];
+  oldRandomArray[1] = randomProducts[1];
+  oldRandomArray[2] = randomProducts[2];
+
+  console.log('old array created',oldRandomArray[0],oldRandomArray[1],oldRandomArray[2]);
 
   // create placeholders for pictures and count times property shown
   var placeholder0 = document.getElementById('placeholder-0');
@@ -88,7 +98,8 @@ function clickManager(event) {
 
     select3ProductsAndRender();
   } else {
-    renderResults();
+    renderChartResults();
+    renderNarrativeResults();
   }
 }
 
@@ -102,7 +113,61 @@ placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
 
 
-function renderResults() {
+// render chart showing number of clicks, and views if possible
+function renderChartResults() {
+
+  var productNameArray = [];
+  var productClicksArray = [];
+  var productViewsArray = [];
+
+  for(var i = 0; i < productStorage.length; i++){
+    productNameArray.push(productStorage[i].productName);
+    productClicksArray.push(productStorage[i].timesProductClicked);
+    productViewsArray.push(productStorage[i].timesProductShown);
+  }
+  // console.log(productNameArray);
+  console.log(productClicksArray);
+
+  // add chart
+  var context = document.getElementById('productChart').getContext('2d');
+  var productChart = new Chart(context, {
+    type: 'horizontalBar',
+    data: {
+      labels: productNameArray,
+      datasets: [
+        {
+          label: 'Product Clicks',
+          data: productClicksArray,
+          barPercentage: .9,
+          // barThickness: 20,
+          backgroundColor: 'rgb(255,99,132)',
+          borderColor: 'rgb(255,99,132)',
+        },
+        {
+          label: 'Product Views',
+          data: productViewsArray,
+        }
+      ],
+    },
+    options: {
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true,
+            }
+          },
+        ],
+      }
+    },
+  });
+  // }
+}
+
+
+
+// render the results of number of clicks and views in text
+function renderNarrativeResults() {
   placeholder0.removeEventListener('click', clickManager);
   placeholder1.removeEventListener('click', clickManager);
   placeholder2.removeEventListener('click', clickManager); 
