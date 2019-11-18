@@ -6,6 +6,7 @@ var randomProducts = [];
 var clickCounter = 0;
 var maxClickCount = 25;
 var oldRandomArray = [];
+var PRODUCT_DATA = 'productData';
 
 // function to genrate random number
 function getRandomProductIndex() {
@@ -42,7 +43,6 @@ function select3ProductsAndRender() {
   productStorage[randomProducts[2]].timesProductShown;
 }
 
-
 // create constructor Object for products; include product and name as arguments
 var Products = function (productName, productImage) {
   this.productName = productName
@@ -54,31 +54,72 @@ var Products = function (productName, productImage) {
     this.timesProductClicked++;
   }
   this.render = function (domReference) {
-    domReference.src = productImage;
+    domReference.src = this.productImage;
   }
-  productStorage.push(this);
+  this.loadData = function (data) {
+    this.timesProductClicked = data.timesProductClicked;
+    this.timesProductShown = data.timesProductShown;
+    this.productName = data.productName;
+    this.productImage = data.productImage;
+  }
+  // productStorage.push(this);
 }
-// Instantiate all of the products
-var bagProduct = new Products('bag', './images/bag.jpg');
-var bananaProduct = new Products('banana', './images/banana.jpg');
-var bathroomProduct = new Products('bathroom', './images/bathroom.jpg');
-var bootsProduct = new Products('boots', './images/boots.jpg');
-var breakfastProduct = new Products('breakfast', './images/breakfast.jpg');
-var bubblegumProduct = new Products('bubblegum', './images/bubblegum.jpg');
-var chairProduct = new Products('chair', './images/chair.jpg');
-var cthulhuProduct = new Products('cthulhu', './images/cthulhu.jpg');
-var dogDuckProduct = new Products('dog-duck', './images/dog-duck.jpg');
-var dragonProduct = new Products('dragon', './images/dragon.jpg');
-var penProduct = new Products('pen', './images/pen.jpg');
-var petSweepProduct = new Products('pet-sweep', './images/pet-sweep.jpg');
-var scissorsProduct = new Products('scissors', './images/scissors.jpg');
-var sharkProduct = new Products('shark', './images/shark.jpg');
-var sweepProduct = new Products('sweep', './images/sweep.png');
-var tauntaunProduct = new Products('tauntaun', './images/tauntaun.jpg');
-var unicornProduct = new Products('unicorn', './images/unicorn.jpg');
-var usbProduct = new Products('usb', './images/usb.gif');
-var waterCanProduct = new Products('water-can', './images/water-can.jpg');
-var wineGlassProduct = new Products('wine-glass', './images/wine-glass.jpg');
+
+// create function to save object data to localStorage
+if (localStorage.getItem(PRODUCT_DATA) === null) {
+
+  var bagProduct = new Products('bag', './images/bag.jpg');
+  var bananaProduct = new Products('banana', './images/banana.jpg');
+  var bathroomProduct = new Products('bathroom', './images/bathroom.jpg');
+  var bootsProduct = new Products('boots', './images/boots.jpg');
+  var breakfastProduct = new Products('breakfast', './images/breakfast.jpg');
+  var bubblegumProduct = new Products('bubblegum', './images/bubblegum.jpg');
+  var chairProduct = new Products('chair', './images/chair.jpg');
+  var cthulhuProduct = new Products('cthulhu', './images/cthulhu.jpg');
+  var dogDuckProduct = new Products('dog-duck', './images/dog-duck.jpg');
+  var dragonProduct = new Products('dragon', './images/dragon.jpg');
+  var penProduct = new Products('pen', './images/pen.jpg');
+  var petSweepProduct = new Products('pet-sweep', './images/pet-sweep.jpg');
+  var scissorsProduct = new Products('scissors', './images/scissors.jpg');
+  var sharkProduct = new Products('shark', './images/shark.jpg');
+  var sweepProduct = new Products('sweep', './images/sweep.png');
+  var tauntaunProduct = new Products('tauntaun', './images/tauntaun.jpg');
+  var unicornProduct = new Products('unicorn', './images/unicorn.jpg');
+  var usbProduct = new Products('usb', './images/usb.gif');
+  var waterCanProduct = new Products('water-can', './images/water-can.jpg');
+  var wineGlassProduct = new Products('wine-glass', './images/wine-glass.jpg');
+
+  productStorage.push(bagProduct);
+  productStorage.push(bananaProduct);
+  productStorage.push(bathroomProduct);
+  productStorage.push(bootsProduct);
+  productStorage.push(breakfastProduct);
+  productStorage.push(bubblegumProduct);
+  productStorage.push(chairProduct);
+  productStorage.push(cthulhuProduct);
+  productStorage.push(dogDuckProduct);
+  productStorage.push(dragonProduct);
+  productStorage.push(penProduct);
+  productStorage.push(petSweepProduct);
+  productStorage.push(scissorsProduct);
+  productStorage.push(sharkProduct);
+  productStorage.push(sweepProduct);
+  productStorage.push(tauntaunProduct);
+  productStorage.push(unicornProduct);
+  productStorage.push(usbProduct);
+  productStorage.push(waterCanProduct);
+  productStorage.push(wineGlassProduct);
+} 
+else {
+  var jsonData = localStorage.getItem(PRODUCT_DATA);
+  var data = JSON.parse(jsonData);
+  for(var i = 0; i < data.length; i++) {
+    var newProduct = new Products('','');
+
+    newProduct.loadData(data[i]);
+    productStorage.push(newProduct);
+  }
+}
 
 // identify and target picture location and then render the pictures
 function clickManager(event) {
@@ -98,9 +139,15 @@ function clickManager(event) {
 
     select3ProductsAndRender();
   } else {
+    saveProductDataToLocalStorage();
     renderChartResults();
     renderNarrativeResults();
   }
+  function saveProductDataToLocalStorage() {
+    var jsonData = JSON.stringify(productStorage);
+    localStorage.setItem(PRODUCT_DATA, jsonData);
+  }
+  
 }
 
 select3ProductsAndRender();
@@ -111,7 +158,6 @@ var placeholder2 = document.getElementById('placeholder-2');
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
-
 
 // render chart showing number of clicks, and views if possible
 function renderChartResults() {
