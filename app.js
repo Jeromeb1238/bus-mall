@@ -84,7 +84,7 @@ var wineGlassProduct = new Products('wine-glass', './images/wine-glass.jpg');
 function clickManager(event) {
   clickCounter++;
   if (clickCounter <= maxClickCount) {
-    
+
     var productIndex;
     if (event.target.id === 'placeholder-0') {
       productIndex = 0;
@@ -120,7 +120,7 @@ function renderChartResults() {
   var productClicksArray = [];
   var productViewsArray = [];
 
-  for(var i = 0; i < productStorage.length; i++){
+  for (var i = 0; i < productStorage.length; i++) {
     productNameArray.push(productStorage[i].productName);
     productClicksArray.push(productStorage[i].timesProductClicked);
     productViewsArray.push(productStorage[i].timesProductShown);
@@ -168,7 +168,7 @@ function renderChartResults() {
 function renderNarrativeResults() {
   placeholder0.removeEventListener('click', clickManager);
   placeholder1.removeEventListener('click', clickManager);
-  placeholder2.removeEventListener('click', clickManager); 
+  placeholder2.removeEventListener('click', clickManager);
 
   var finalResultsList = document.getElementById('final-results');
   var ulElement = document.createElement('ul');
