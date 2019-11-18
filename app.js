@@ -139,8 +139,8 @@ function renderChartResults() {
           label: 'Product Clicks',
           data: productClicksArray,
           barPercentage: .9,
-          // barThickness: 20,
-          backgroundColor: 'rgb(255,99,132)',
+          barThickness: 20,
+          backgroundColor: 'a7fde8',
           borderColor: 'rgb(255,99,132)',
         },
         {
