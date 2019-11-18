@@ -1,22 +1,33 @@
 body {
-  border: black 1px solid;
+  background-color: #a7fde8;
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 12px;
-  width: 960px;
+  width: 1250px;
+  margin: auto;
 }
 h1 {
-  border: 2px black solid;
+  background-color: #63b09d;
   font-size: 4em;
   text-align: center;
 }
+#images div {
+  background-color: #b09f6b;
+  height: 600px;
+  width: 1150;
+  position: relative;
+}
 .medium-image {
+  margin: auto;
   padding: 5px;
-  border: solid black 1px;
-  width: 300px;
+  width: 375px;
+}
+canvas {
+  background-color: #c9b371;
+  width: 1150;
 }
 #final-results {
   font-size: 2em;
-  width: 700px;
+  width: 900px;
   padding: 10px;
   margin: 20px auto 10px auto;
 }

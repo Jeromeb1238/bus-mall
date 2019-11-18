@@ -8,12 +8,13 @@ var maxClickCount = 25;
 var oldRandomArray = [];
 var PRODUCT_DATA = 'productData';
 
+// function to genrate random number
 function getRandomProductIndex() {
   return Math.floor(Math.random() * (productStorage.length));
 }
 
+// function to select 3 random pictures not from the previous group of 3 and none the same
 function select3ProductsAndRender() {
-  console.log('old random array', oldRandomArray[0], oldRandomArray[1], oldRandomArray[2]);
   randomProducts = [];
 
   while (randomProducts.length < 3) {
@@ -22,20 +23,18 @@ function select3ProductsAndRender() {
       randomProducts.push(nextRandomValue);
     }
   }
-  console.log('new random products ', randomProducts);
 
   // populate the old random array with the new random values
   oldRandomArray[0] = randomProducts[0];
   oldRandomArray[1] = randomProducts[1];
   oldRandomArray[2] = randomProducts[2];
 
-  console.log('old array created', oldRandomArray[0], oldRandomArray[1], oldRandomArray[2]);
-
   // create placeholders for pictures and count times property shown
   var placeholder0 = document.getElementById('placeholder-0');
   var placeholder1 = document.getElementById('placeholder-1');
   var placeholder2 = document.getElementById('placeholder-2');
 
+  // render the pictures and also add to each product object number times picture viewed
   productStorage[randomProducts[0]].render(placeholder0);
   productStorage[randomProducts[0]].timesProductShown++;
   productStorage[randomProducts[1]].render(placeholder1);
@@ -44,8 +43,7 @@ function select3ProductsAndRender() {
   productStorage[randomProducts[2]].timesProductShown;
 }
 
-
-// create constructor Object 
+// create constructor Object for products; include product and name as arguments
 var Products = function (productName, productImage) {
   this.productName = productName
   this.productImage = productImage
@@ -123,6 +121,7 @@ else {
   }
 }
 
+// identify and target picture location and then render the pictures
 function clickManager(event) {
   clickCounter++;
   if (clickCounter <= maxClickCount) {
@@ -151,7 +150,6 @@ function clickManager(event) {
   
 }
 
-
 select3ProductsAndRender();
 var placeholder0 = document.getElementById('placeholder-0');
 var placeholder1 = document.getElementById('placeholder-1');
@@ -160,7 +158,6 @@ var placeholder2 = document.getElementById('placeholder-2');
 placeholder0.addEventListener('click', clickManager);
 placeholder1.addEventListener('click', clickManager);
 placeholder2.addEventListener('click', clickManager);
-
 
 // render chart showing number of clicks, and views if possible
 function renderChartResults() {
@@ -174,10 +171,8 @@ function renderChartResults() {
     productClicksArray.push(productStorage[i].timesProductClicked);
     productViewsArray.push(productStorage[i].timesProductShown);
   }
-  // console.log(productNameArray);
-  console.log(productClicksArray);
 
-  // add chart
+  // add chart of clicks and views
   var context = document.getElementById('productChart').getContext('2d');
   var productChart = new Chart(context, {
     type: 'horizontalBar',
@@ -188,8 +183,8 @@ function renderChartResults() {
           label: 'Product Clicks',
           data: productClicksArray,
           barPercentage: .9,
-          // barThickness: 20,
-          backgroundColor: 'rgb(255,99,132)',
+          barThickness: 20,
+          backgroundColor: 'a7fde8',
           borderColor: 'rgb(255,99,132)',
         },
         {
